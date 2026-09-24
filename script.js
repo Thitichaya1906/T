@@ -1,14 +1,24 @@
 // ================= ตั้งค่า API Key =================
-// นำ API Key ที่ได้จาก Google AI Studio มาแปะแทนที่ช่องสี่เหลี่ยมด้านล่างนี้
-const GEMINI_API_KEY = "AQ.Ab8RN6IwNn_MyeLCMBjVnCrpvRurmG9dKXO1xVns81CJDfDpkA"; 
+// นำ API Key ที่ได้จาก Google AI Studio (บัญชี Gmail ส่วนตัว) มาแปะแทนที่ในอัญประกาศ
+const GEMINI_API_KEY = "ใส่_API_KEY_จาก_GMAIL_ส่วนตัว_ที่นี่"; 
 
-// ฟังก์ชันสลับหน้าแท็บ (Tab Switcher)
-function switchTab(tabId) {
+// ================= ฟังก์ชันสลับหน้าแท็บ (รองรับทั้งคอมพิวเตอร์และมือถือ) =================
+function switchTab(tabId, btnElement) {
+  // ซ่อนเนื้อหาทุกแท็บ
   document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+  // เอาสถานะ active ออกจากปุ่มทั้งหมด
   document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
 
-  document.getElementById(tabId).classList.add('active');
-  event.target.classList.add('active');
+  // แสดงแท็บที่เลือก
+  const targetTab = document.getElementById(tabId);
+  if (targetTab) targetTab.classList.add('active');
+
+  // เปลี่ยนสีปุ่มที่ถูกกด
+  if (btnElement) {
+    btnElement.classList.add('active');
+  } else if (window.event && window.event.target) {
+    window.event.target.classList.add('active');
+  }
 }
 
 // ================= ฟีเจอร์ที่ 1 (วิเคราะห์ดินแบบละเอียดเจาะลึก + ดัชนี pH + Top 5) =================
@@ -131,5 +141,4 @@ async function analyzeFeature3() {
   } catch (error) {
     resultDiv.innerHTML = "<p style='color:red;'>เกิดข้อผิดพลาดในการเชื่อมต่อ AI โปรดตรวจสอบ API Key หรือลองใหม่อีกครั้ง</p>";
   }
-                             }
-
+}
